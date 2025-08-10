@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}{{ post.title }} | MyBlog{% endblock %}
+
+{% block content %}
+<article class="post-detail" style="max-width: 1000px; margin: 2rem auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+  <div class="left-col">
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+    {% endif %}
+    <div class="post-content">
+    {{ safe }}
+    </div>
+    <p class="meta" style="color:#6b7280; margin-top: 0.5rem;">By {{ post.author }} • {{ post.created_at|date:"M d, Y" }}</p>
+  </div>
+
+  <div class="right-col">
+    <h1 style="margin-top:0;">{{ post.title }}</h1>
+
+    <!-- Render the post content ONCE.
+         If content contains HTML (from admin/CKEditor), use |safe.
+         If content is plain text, use |linebreaks or |linebreaksbr instead. -->
+    <div class="post-content">
+      {{ post.content|safe }}
+    </div>
+
+    <div class="post-actions" style="margin-top:1.25rem;">
+      <a href="{% url 'show_blog' %}" style="margin-right:1rem;">← Back to posts</a>
+         <a href="{% url 'home' %}" style="margin-right:1rem;">← Back to home</a>
+
+
+      {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'edit_post' id=post.id %}" style="margin-right:0.75rem;">Edit</a>
+        <a href="{% url 'delete_post' id=post.id %}">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+</article>
+
+<!-- Optional: show other posts by same author (if you want) -->
+{% comment %}
+<div style="max-width:1000px; margin: 2rem auto;">
+  <h3>More from {{ post.author }}</h3>
+  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+    {% for blog in blogs %}
+      <div style="width:240px; border:1px solid #eee; padding:12px; border-radius:8px;">
+        <a href="{% url 'post_detail' id=blog.id %}"><strong>{{ blog.title }}</strong></a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endcomment %}
+
+{% endblock %}

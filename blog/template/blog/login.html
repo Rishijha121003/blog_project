@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Login | MyBlog</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <img src="{% static 'image/logo2.png' %}" alt="Logo" style="height: 100px; align-items: center; justify-content: center;">
+
+    <h2>Welcome back.</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" placeholder="Your username" required>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="••••••••••" required>
+
+      <button type="submit">Sign In →</button>
+    </form>
+
+    <p class="disclaimer">
+      Don’t have an account? <a href="{% url 'register' %}">Register here</a>.
+    </p>
+  </div>
+
+</body>
+</html>

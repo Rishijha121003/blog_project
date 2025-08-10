@@ -1,0 +1,61 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container about-page">
+    <style>
+    .about-page {
+          display: flex;
+         flex-direction: column;
+          gap: 2rem;
+    }
+    .about-page h1, .about-page h2 {
+        color: #222;
+    }
+    .about-features ul {
+        list-style: none;
+        padding: 0;
+    }
+    .about-features li {
+        background: #f7f7f7;
+        margin: 5px 0;
+        padding: 8px 12px;
+        border-radius: 5px;
+    }
+</style>
+    <h1>📘 About MyBlog</h1>
+
+    <section class="about-intro">
+        <p>
+            Welcome to <strong>MyBlog</strong> — your space to create, share, and explore ideas. 
+            We’ve built this platform to empower writers, readers, and thinkers to connect 
+            through meaningful content.
+        </p>
+    </section>
+
+    <section class="about-mission">
+        <h2>🌟 Our Mission</h2>
+        <p>
+            Our mission is simple — make blogging accessible to everyone. Whether you’re 
+            a beginner sharing your first post or a seasoned writer building your audience, 
+            MyBlog provides the tools you need to succeed.
+        </p>
+    </section>
+
+    <section class="about-features">
+        <h2>⚙️ What We Offer</h2>
+        <ul>
+            <li>✏️ Easy-to-use blog editor with rich text support</li>
+            <li>🔒 Secure user authentication</li>
+            <li>📂 Organized blog management system</li>
+            
+            <li>🌍 Discover & explore posts from other creators</li>
+        </ul>
+    </section>
+
+   
+</div>
+
+
+{% endblock %}

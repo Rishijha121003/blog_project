@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}MyBlog{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="ghost-navbar">
+    <div class="logo">   <a href="{% url 'home' %}">MyBlog</a></div>
+
+    <nav class="nav-links">
+       <a href="{% url 'about' %}">About</a>
+      <a href="{%url 'home'%}">Dashboard</a>
+     
+      <a href="{% url 'show_blog'  %}">All Post</a>
+      
+      
+    </nav>
+    <div class="auth-links">
+      <a href="{% url 'login' %}">Sign in</a>
+      <a href="{% url 'register' %}" class="btn-primary">Get Started — free</a>
+    </div>
+  </header>
+
+  {% block hero %}{% endblock %}
+
+  <main>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="ghost-footer">
+    <p>Rishi Foundation © 2025</p>
+  </footer>
+
+</body>
+</html>

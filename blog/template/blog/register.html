@@ -1,0 +1,44 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register | MyBlog</title>
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <img src="{% static 'image/logo2.png' %}" alt="Logo" style="height: 100px;">
+    <h2>Let's get started.</h2>
+ <form method="post">
+        {% csrf_token %}
+        <label>Username:</label><br>
+        <input type="text" name="username"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email"><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password"><br><br>
+
+        <label>Confirm Password:</label><br>
+        <input type="password" name="confirm_password"><br><br>
+
+        <input type="submit" value="Register">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+
+    <p class="disclaimer">
+      By creating an account, you agree to our  
+      <a href="#">Terms of Service</a> and have read and understood the  
+      <a href="#">Privacy Policy</a>.
+    </p>
+  </div>
+
+</body>
+</html>

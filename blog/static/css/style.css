@@ -1,0 +1,321 @@
+/* ==========================
+   BASE RESETS
+========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+body {
+  color: #111;
+  background: #fff;
+}
+
+/* ==========================
+   NAVBAR STYLING
+========================== */
+.ghost-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 100;
+}
+
+.ghost-navbar .logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.ghost-navbar .nav-links a,
+.ghost-navbar .auth-links a {
+  margin: 0 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.ghost-navbar .auth-links .btn-primary {
+  background: #000;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+.ghost-navbar .auth-links .btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* ==========================
+   HERO SECTION
+========================== */
+.ghost-hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: #f9f9f9;
+  align-items: flex-start;
+}
+
+.ghost-hero .badge {
+  background: #ffcd00;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.ghost-hero h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.ghost-hero p {
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto 24px;
+  color: #555;
+}
+
+.ghost-hero .btn-primary {
+  background: #000;
+  color: #fff;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* ==========================
+   MAIN CONTENT CONTAINER
+========================== */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ==========================
+   AUTH PAGES (Login/Register)
+========================== */
+.auth-page {
+  background: #060505;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(160, 137, 137, 0.5);
+}
+
+.auth-card h2 {
+  margin-bottom: 24px;
+  font-size: 1.75rem;
+  color: #854545;
+  text-align: left;
+}
+
+.auth-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f5f5f5;
+  font-size: 1rem;
+}
+
+.auth-card .hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: -12px;
+  margin-bottom: 16px;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 14px;
+  background: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  opacity: 0.9;
+}
+
+.auth-card .disclaimer {
+  font-size: 0.75rem;
+  color: #777;
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.4;
+}
+
+.auth-card .disclaimer a {
+  color: #111;
+  text-decoration: underline;
+}
+
+
+/* ==========================
+   FORM CARD (used in blog create/edit)
+========================== */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================
+   FOOTER STYLING
+========================== */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.content {
+    min-height: calc(100vh - 60px); /* 60px footer ki height */
+}
+
+footer {
+    height: 60px;
+    background: #f1f1f1;
+    text-align: center;
+    line-height: 60px;
+}
+/* Blog Highlights Section */
+.blog-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 60px 20px;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.highlight-card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.highlight-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.highlight-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.highlight-card a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  background: #ffcd00;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.highlight-card a:hover {
+  background: #e6b800;
+}
+
+.highlight-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-image {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.blog-layout {
+  display: flex;
+  align-items: flex-start; /* prevents vertical centering */
+  gap: 20px;
+  padding: 20px;
+}
+
+.filter-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
+
+.blog-posts {
+  flex: 1;
+}
+
+.post-card {
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #fff;
+}
+
+.post-image {
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.post-actions a {
+  margin-right: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.post-actions a:hover {
+  text-decoration: underline;
+}
