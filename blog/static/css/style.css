@@ -217,7 +217,7 @@ html, body {
     min-height: calc(100vh - 60px); /* 60px footer ki height */
 }
 
-footer {
+ghost-footer {
     height: 60px;
     background: #f1f1f1;
     text-align: center;

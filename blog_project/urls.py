@@ -26,6 +26,7 @@ urlpatterns = [
     path('post/<int:id>/', views.post_detail, name='post_detail'),
 
     # Post Detail & Operations
+    # urls.py
     path('post/<int:id>/', views.post_detail, name='post_detail'),
     path('post/<int:id>/edit/', views.edit_blog, name='edit_blog'),
     path('post/<int:id>/delete/', views.delete_blog, name='delete_blog'),
@@ -35,8 +36,9 @@ urlpatterns = [
 
     # CKEditor Uploads
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
+
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
 # Media Files in Development Mode

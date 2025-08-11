@@ -19,12 +19,11 @@ def base(request):
 
 
 @login_required
-
 def home(request):
     latest_blogs = BlogPost.objects.order_by('-created_at')[:6]  # Latest 6 blogs
     return render(request, 'blog/home.html', {'latest_blogs': latest_blogs})
 
-    return render(request, 'blog/home.html', context)
+   
 @login_required
 def create_post(request):
     if request.method == 'POST':
@@ -40,9 +39,11 @@ def create_post(request):
 
 
 
-def post_detail(request, pk):
-    post = Post.objects.get(pk=pk)
+# views.py
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id)
     return render(request, 'blog/post_detail.html', {'post': post})
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
