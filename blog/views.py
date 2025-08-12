@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .forms import PostForm
 from .models import Post, Blog, Category
 from collections import defaultdict
-from .models import BlogPost
+
 from django.utils import timezone
 def base(request):
     return render(request, 'blog/base.html')  
@@ -20,8 +20,15 @@ def base(request):
 
 @login_required
 def home(request):
-    latest_blogs = BlogPost.objects.order_by('-created_at')[:6]  # Latest 6 blogs
-    return render(request, 'blog/home.html', {'latest_blogs': latest_blogs})
+    category_id = request.GET.get('category')
+    if category_id:
+        posts = Post.objects.filter(category__id=category_id).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
+    
+    categories = Category.objects.all()  # ye navbar ke liye chahiye
+    
+    return render(request, 'blog/home.html', {'posts': posts, 'categories': categories})
 
    
 @login_required

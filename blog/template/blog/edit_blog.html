@@ -5,7 +5,7 @@
 
 {% block content %}
   <h1>Edit Content</h1>
-  <form method="post">
+  <form method="post" class="card">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Update</button>

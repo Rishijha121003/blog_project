@@ -36,9 +36,9 @@
           {{ post.content|safe|truncatewords:25 }}
         </div>
 
-        <a href="{% url 'edit_blog' post.id %}">Edit</a>
-        <a href="{% url 'delete_blog' post.id %}">Delete</a>
-        <a href="{% url 'post_detail' id=post.id %}">Read More</a>  
+        <a href="{% url 'edit_blog' post.id %} " class="card">Edit</a> 
+        <a href="{% url 'delete_blog' post.id %}" class="card">Delete</a>
+        <a href="{% url 'post_detail' id=post.id %}"class= "card">Read More</a>  
       </div>
     {% empty %}
       <p>No posts found in this category.</p>

@@ -17,9 +17,7 @@
   <div class="right-col">
     <h1 style="margin-top:0;">{{ post.title }}</h1>
 
-    <!-- Render the post content ONCE.
-         If content contains HTML (from admin/CKEditor), use |safe.
-         If content is plain text, use |linebreaks or |linebreaksbr instead. -->
+  
     <div class="post-content">
       {{ post.content|safe }}
     </div>

@@ -57,10 +57,13 @@ body {
    HERO SECTION
 ========================== */
 .ghost-hero {
-  text-align: center;
-  padding: 100px 20px;
+  width: 100%;           /* Full viewport width */
+  max-width: 80%;        /* Prevent horizontal scroll */
+  box-sizing: border-box; /* Padding included in width */
+  padding: 4rem 2rem;
   background: #f9f9f9;
-  align-items: flex-start;
+  margin: 0;              /* Remove any margin */
+  text-align: center;
 }
 
 .ghost-hero .badge {
@@ -92,6 +95,13 @@ body {
   text-decoration: none;
   border-radius: 4px;
   font-weight: 500;
+}
+
+.frequent-blogs {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 2rem auto; /* center with bottom margin */
+  box-sizing: border-box;
 }
 
 /* ==========================
@@ -193,6 +203,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  display: block;
 }
 
 .card {
@@ -217,7 +228,7 @@ html, body {
     min-height: calc(100vh - 60px); /* 60px footer ki height */
 }
 
-ghost-footer {
+.ghost-footer {
     height: 60px;
     background: #f1f1f1;
     text-align: center;
@@ -318,4 +329,17 @@ ghost-footer {
 
 .post-actions a:hover {
   text-decoration: underline;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center; /* center align horizontally */
+  width: 100%;
+  height: fit-content;
+}
+.ghost-footer {
+    position: relative; /* or static */
+    bottom: auto;
+    width: 100%;
+    margin-top: 2rem; /* thoda gap upar se */
 }
