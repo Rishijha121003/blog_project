@@ -9,7 +9,7 @@
 <article class="post-detail" 
          style="max-width: 1000px; margin: 2rem auto; 
                 display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; 
-                align-items: start; background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%); padding: 1.5rem; border-radius: 8px;">
+                align-items: start; background: linear-gradient(180deg, #ca94da 0%, #bfc9cb 100%); padding: 1.5rem; border-radius: 8px;">
   
   <!-- Left Column -->
   <div>
@@ -35,10 +35,7 @@
       <a href="{% url 'show_blog' %}" style="margin-right:1rem;">← Back to posts</a>
       <a href="{% url 'home' %}" style="margin-right:1rem;">← Back to home</a>
 
-      {% if user.is_authenticated and user == post.author %}
-        <a href="{% url 'edit_post' id=post.id %}" style="margin-right:0.75rem;">Edit</a>
-        <a href="{% url 'delete_post' id=post.id %}">Delete</a>
-      {% endif %}
+   
     </div>
 
     <!-- Like Button -->

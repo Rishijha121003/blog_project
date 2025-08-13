@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from .models import Post, Category
+from django.db.models import Q
 
 
 # Base template render
@@ -16,7 +18,11 @@ def base(request):
 @login_required
 def home(request):
     category_id = request.GET.get('category')
-    posts = Post.objects.filter(category__id=category_id).order_by('-created_at') if category_id else Post.objects.all().order_by('-created_at')
+    if category_id:
+        posts = Post.objects.filter(category__id=category_id).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')[:3]
+
     categories = Category.objects.all()
     return render(request, 'blog/home.html', {'posts': posts, 'categories': categories})
 
@@ -25,30 +31,45 @@ def home(request):
 @login_required
 def create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect('home')
     else:
         form = PostForm()
     return render(request, 'blog/create_post.html', {'form': form})
 
 
-# Show all blogs with category filter
+# Show all blogs with search and pagination
 def show_blog(request):
+    query = request.GET.get('q', '')
     selected_categories = request.GET.getlist('category')
-    posts = Post.objects.filter(category__in=selected_categories) if selected_categories else Post.objects.all()
+    
+    posts = Post.objects.all()
+    
+    if selected_categories:
+        posts = posts.filter(category__in=selected_categories)
+    
+    if query:
+        posts = posts.filter(Q(title__icontains=query) | Q(content__icontains=query))
+    
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     categories = dict(Post.CATEGORY_CHOICES)
+    
     return render(request, 'blog/show_blog.html', {
-        'posts': posts,
+        'page_obj': page_obj,
         'categories': categories,
-        'selected_categories': selected_categories
+        'selected_categories': selected_categories,
+        'query': query
     })
 
 
 # View a single blog post
-from .forms import CommentForm
-
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     comments = post.comments.all().order_by('-created_at')
@@ -80,7 +101,8 @@ def like_post(request, pk):
     else:
         post.likes.add(request.user)  # Like
 
-    return redirect('post_detail', id=pk)  # apne url ke hisaab se change karo
+    return redirect('post_detail', id=pk)
+
 
 # Edit a blog post
 @login_required
@@ -108,6 +130,9 @@ def delete_blog(request, id):
 
 # User authentication views
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('home')  # Already logged in
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -118,10 +143,14 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
+
     return render(request, 'blog/login.html')
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')  # Already logged in
+
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
@@ -134,7 +163,7 @@ def register_view(request):
 
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
-            return redirect('login')
+            return redirect('register')
 
         User.objects.create_user(username=username, email=email, password=password)
         messages.success(request, "Registration successful. Please log in.")
@@ -143,6 +172,8 @@ def register_view(request):
     return render(request, 'blog/register.html')
 
 
+# Logout
+@login_required
 def custom_logout(request):
     logout(request)
     return redirect('login')

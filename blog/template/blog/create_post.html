@@ -9,7 +9,7 @@
 <div class="container">
     <div class="card">
         <h2>Create a New Blog Post</h2>
-     <form method="POST" enctype="multipart/form-data">
+     <form method="POST" enctype="multipart/form-data" >
        {% csrf_token %}
        {{ form.as_p }}
        <button type="submit">Save</button>

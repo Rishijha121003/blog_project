@@ -7,56 +7,53 @@
 
 <!-- 🔥 Hero Section -->
 <section class="ghost-hero">
-  <span class="badge">
-    🚀  MyBlog 1.0
-  </span>
-  <h1>
-    Create your space, <br> Share your story
-  </h1>
+  <span class="badge">🚀 MyBlog 1.0</span>
+  <h1>Create your space, <br> Share your story</h1>
   <p>
     Welcome to <strong>MyBlog</strong> — a place where your voice matters. 
     Write blog posts, share ideas, and connect with an audience that cares.
   </p>
-  <a href="{% url 'create_post' %}" class="btn-primary">
-    ✍️ Start Writing
-  </a>
+  <a href="{% url 'create_post' %}" class="btn-primary">✍️ Start Writing</a>
 </section> 
 
-
-<section >
-  <h2>📌 Frequent Blogs</h2>
-  {% for post in posts %}
-    <div class="frequent-blogs"style=" background: linear-gradient(180deg, #79d4d4 0%, #d0dee1 100%)">
-        <div class="article-metadata" >
-      <h2 style="text-align:left; float:left; color: #000000; font-size: 1.1rem; margin: 0;">
-            BY {{ post.author.username }}
-      </h2>
-      <h5 style="text-align:right; float:right; color: #000000; margin: 0;">
-          {{ post.created_at|date:"F d, Y" }}
-      </h5>
-      <hr style="clear:both; margin-top: 5px;" />
-  </div>
-       <a href="{% url 'post_detail' id=post.id %}"><h3>{{ post.title }}</h3></a>
-
+<!-- 🔥 Frequent Blogs Grid -->
+<section>
+  <h2 style="margin-bottom: 20px;">📌 Frequent Blogs</h2>
+  
+  {% if posts %}
+  <div class="posts-grid">
+    {% for post in posts %}
+    <div class="blog-card">
       
+      <!-- Author & Date -->
+      <div class="article-metadata">
+        <h2>BY {{ post.author.username }}</h2>
+        <h5>{{ post.created_at|date:"F d, Y" }}</h5>
+      </div>
+
+      <!-- Title -->
+      <a href="{% url 'post_detail' id=post.id %}"><h3>{{ post.title }}</h3></a>
+
+      <!-- Image -->
       {% if post.image %}
-        <img src="{{ post.image.url }}" alt="Blog Image" style="max-width:400px;">
+        <img src="{{ post.image.url }}" alt="Blog Image" style="max-width: 400px;">
       {% endif %}
-      
-      <div class="post-content">
-       
-       {{ post.content|safe|truncatewords:100 }} 
-     <p><br>  Likes: {{ post.likes.count }}</p><br>  
-     </div>
 
-      
-      <p>Posted {{ post.created_at|naturaltime }}</p>
-      
-         <a href="{% url 'post_detail' id=post.id %}" class="btn btn-primary mt-auto">Read More</a> 
-   
-  {% empty %}
-    <p>No posts found in this category.</p>
-  {% endfor %}
+      <!-- Content -->
+      <div class="post-content">
+        {{ post.content|safe|truncatewords:20}}
+        <p>Likes: {{ post.likes.count }} | Comments: {{ post.comments.count }}</p>
+      </div>
+
+      <!-- Read More Button -->
+      <a href="{% url 'post_detail' id=post.id %}" class="btn btn-primary">Read More</a>
+
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No posts found.</p>
+  {% endif %}
 </section>
 
 {% endblock %}

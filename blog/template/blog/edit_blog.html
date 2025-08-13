@@ -4,6 +4,7 @@
 {% block title %}Edit Content{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
   <h1>Edit Content</h1>
   <form method="POST" enctype="multipart/form-data" >
     {% csrf_token %}

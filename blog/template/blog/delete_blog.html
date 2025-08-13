@@ -1,7 +1,12 @@
+
+{% load static %}
+
+
 <h1>Delete Blog</h1>
 <p>Are you sure you want to delete "{{ post.title }}"?</p>
-<form method="post">
+<form method="post" style=" background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%);">
     {% csrf_token %}
+    {{ form.as_p }}
     <button type="submit">Yes, Delete</button>
     <a href="{% url 'show_blog' %}">Go back</a>
 </form>

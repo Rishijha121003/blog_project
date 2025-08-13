@@ -2,73 +2,83 @@
 {% block title %}All Blog Posts{% endblock %}
 
 {% block content %}
-<div style="max-width: 800px; margin: auto; padding: 20px;;">
+<div style="max-width: 800px; margin: auto; padding: 20px;">
 
-    <!-- Filters -->
-    <section >
-              <h3>Filters</h3>
-        <form method="get" >
-            {% for value, label in categories.items %}
-                <label style="display:flexbox; float: left; ">
-                    <input type="checkbox" name="category" value="{{ value }}"
-                           {% if value in selected_categories %}checked{% endif %}>
-                    {{ label }}
-                </label>
-            {% endfor %}
-            <br>
-            <button type="submit" >Apply Filters</button>
+    <!-- Search & Filters -->
+    <section>
+        <form method="get">
+            <input type="text" name="q" placeholder="Search posts..." value="{{ query }}">
+            <button type="submit">Search</button>
+            <div>
+                {% for value, label in categories.items %}
+                    <label style="margin-right:10px;">
+                        <input type="checkbox" name="category" value="{{ value }}"
+                               {% if value in selected_categories %}checked{% endif %}>
+                        {{ label }}
+                    </label>
+                {% endfor %}
+            </div>
+            <button type="submit">Apply Filters</button>
         </form>
     </section>
 
-    <!-- Blog Posts -->
-    <section>
-        <h2 style="text-align: center;">Blog Posts</h2>
-        {% for post in posts %}
-            <div class="frequent-blogs" style="margin-bottom: 20px;">
+    <hr>
 
-                <!-- Author & Date -->
-                <div class="article-metadata" style="border-bottom: 1px solid #00c7ea; padding-bottom: 5px; margin-bottom: 10px;">
-                    <h2 style="text-align:left; float:left; color: #e40000; font-size: 1.1rem; margin: 0;">
-                        {{ post.author }}
-                    </h2>
-                    <h5 style="text-align:right; float:right; color: #666; margin: 0;">
-                        {{ post.created_at|date:"F d, Y" }}
-                    </h5>
-                    <hr style="clear:both; margin-top: 5px;" />
-                </div>
+    <!-- Posts -->
+    {% for post in page_obj %}
+        <div class="frequent-blogs" style="margin-bottom: 20px; border-bottom:1px solid #ccc; padding-bottom:10px;">
 
-                <!-- Title -->
-                <h3 style="text-align: center;">{{ post.title }}</h3>
-
-                <!-- Category -->
-                <p style="text-align: center;"><strong>Category:</strong> {{ post.get_category_display }}</p>
-
-                <!-- Image -->
-                {% if post.image %}
-                    <div style="text-align: center;">
-                        <img src="{{ post.image.url }}" alt="Blog Image" style="max-width:300px; border-radius: 6px;">
-                    </div>
-                {% endif %}
-
-                <!-- Content -->
-                <div class="post-content" style="text-align: justify; margin-top: 10px;">
-                    {{ post.content|safe|truncatewords:25 }}
-                    <p>Likes: {{ post.likes.count }}</p>
-                    <p>Comments: {{ post.comments.count }}</p>
-                </div>
-
-                <!-- Actions -->
-                <p style="margin-top: 10px; text-align: center;">
-
-                    <a href="{% url 'edit_blog' post.id %}">Edit</a> |
-                    <a href="{% url 'delete_blog' post.id %}">Delete</a> |
-                    <a href="{% url 'post_detail' id=post.id %}">Read More</a>
-                </p>
+            <!-- Author & Date -->
+            <div class="article-metadata" style="margin-bottom: 10px; display:flex; justify-content:space-between;">
+                <h2 style="color: #e40000; font-size: 1.1rem; margin: 0;">{{ post.author.username }}</h2>
+                <h5 style="color: #666; margin: 0;">{{ post.created_at|date:"F d, Y" }}</h5>
             </div>
-        {% empty %}
-            <p style="text-align: center;">No posts found in this category.</p>
-        {% endfor %}
-    </section>
+
+            <!-- Title -->
+            <h3 style="text-align: center;">{{ post.title }}</h3>
+
+            <!-- Category -->
+            <p style="text-align: center;"><strong>Category:</strong> {{ post.get_category_display }}</p>
+
+            <!-- Image -->
+            {% if post.image %}
+                <div style="text-align: center;">
+                    <img src="{{ post.image.url }}" alt="Blog Image" style="max-width:300px; border-radius: 6px;">
+                </div>
+            {% endif %}
+
+            <!-- Content -->
+            <div class="post-content" style="text-align: justify; margin-top: 10px;">
+                {{ post.content|safe|truncatewords:25 }}
+                <p>Likes: {{ post.likes.count }} | Comments: {{ post.comments.count }}</p>
+            </div>
+
+            <!-- Actions -->
+            <p style="margin-top: 10px; text-align: center;">
+                <a href="{% url 'edit_blog' post.id %}">Edit</a> |
+                <a href="{% url 'delete_blog' post.id %}">Delete</a> |
+                <a href="{% url 'post_detail' id=post.id %}">Read More</a>
+            </p>
+        </div>
+    {% empty %}
+        <p style="text-align: center;">No posts found.</p>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <div style="text-align:center; margin-top:20px;">
+        {% if page_obj.has_previous %}
+            <a href="?{% if query %}q={{ query }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page=1">First</a>
+            <a href="?{% if query %}q={{ query }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?{% if query %}q={{ query }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?{% if query %}q={{ query }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+    
 
 </div>
 {% endblock %}
