@@ -1,52 +1,91 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load humanize %}
+
 {% block title %}{{ post.title }} | MyBlog{% endblock %}
 
 {% block content %}
-<article class="post-detail" style="max-width: 1000px; margin: 2rem auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
-  <div class="left-col">
+
+<article class="post-detail" 
+         style="max-width: 1000px; margin: 2rem auto; 
+                display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; 
+                align-items: start; background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%); padding: 1.5rem; border-radius: 8px;">
+  
+  <!-- Left Column -->
+  <div>
     {% if post.image %}
-      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image" style="max-width: 100%; border-radius: 6px;">
     {% endif %}
-    <div class="post-content">
-    {{ safe }}
-    </div>
-    <p class="meta" style="color:#6b7280; margin-top: 0.5rem;">By {{ post.author }} • {{ post.created_at|date:"M d, Y" }}</p>
+
+    <p class="meta" style="color:#6b7280; margin-top: 0.5rem; font-size: 0.9rem;">
+      By {{ post.author }} • {{ post.created_at|date:"M d, Y" }}
+    </p>
   </div>
 
+  <!-- Right Column -->
   <div class="right-col">
     <h1 style="margin-top:0;">{{ post.title }}</h1>
 
-  
     <div class="post-content">
       {{ post.content|safe }}
     </div>
 
+    <!-- Actions -->
     <div class="post-actions" style="margin-top:1.25rem;">
       <a href="{% url 'show_blog' %}" style="margin-right:1rem;">← Back to posts</a>
-         <a href="{% url 'home' %}" style="margin-right:1rem;">← Back to home</a>
-
+      <a href="{% url 'home' %}" style="margin-right:1rem;">← Back to home</a>
 
       {% if user.is_authenticated and user == post.author %}
         <a href="{% url 'edit_post' id=post.id %}" style="margin-right:0.75rem;">Edit</a>
         <a href="{% url 'delete_post' id=post.id %}">Delete</a>
       {% endif %}
     </div>
+
+    <!-- Like Button -->
+    <div style="margin-top: 1.5rem;">
+      {% if user.is_authenticated %}
+        <form action="{% url 'like_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          {% if user in post.likes.all %}
+            <button type="submit" class="btn btn-danger">Unlike</button>
+          {% else %}
+            <button type="submit" class="btn btn-primary">Like</button>
+          {% endif %}
+          <span style="margin-left: 0.5rem;">{{ post.total_likes }} Likes ❤️</span>
+        </form>
+      {% else %}
+        <p>Login to like this post</p>
+      {% endif %}
+    </div>
+
+    <!-- Comments Section -->
+    <hr style="margin: 2rem 0;">
+
+    <h4>💬 Comments ({{ comments.count }})</h4>
+
+    <ul class="list-group mb-3">
+      {% for comment in comments %}
+        <li class="list-group-item" style="background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;">
+          <strong>{{ comment.user.username }}</strong> — {{ comment.content }}
+          <small class="text-muted" style="float: right;">{{ comment.created_at|naturaltime }}</small>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No comments yet. Be the first to comment!</li>
+      {% endfor %}
+    </ul>
+
+    <!-- Add Comment Form -->
+    {% if user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Add Comment</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+    {% endif %}
+
   </div>
 </article>
-
-<!-- Optional: show other posts by same author (if you want) -->
-{% comment %}
-<div style="max-width:1000px; margin: 2rem auto;">
-  <h3>More from {{ post.author }}</h3>
-  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-    {% for blog in blogs %}
-      <div style="width:240px; border:1px solid #eee; padding:12px; border-radius:8px;">
-        <a href="{% url 'post_detail' id=blog.id %}"><strong>{{ blog.title }}</strong></a>
-      </div>
-    {% endfor %}
-  </div>
-</div>
-{% endcomment %}
 
 {% endblock %}

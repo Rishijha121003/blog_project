@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from blog import views
+
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     # Post Detail & Operations
     # urls.py
     path('post/<int:id>/', views.post_detail, name='post_detail'),
+     path('like/<int:pk>/', views.like_post, name='like_post'),
     path('post/<int:id>/edit/', views.edit_blog, name='edit_blog'),
     path('post/<int:id>/delete/', views.delete_blog, name='delete_blog'),
 

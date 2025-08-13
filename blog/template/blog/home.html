@@ -6,9 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <!-- 🔥 Hero Section -->
-<section class="ghost-hero wrapper">
+<section class="ghost-hero">
   <span class="badge">
-    🚀 Just launched: MyBlog 1.0
+    🚀  MyBlog 1.0
   </span>
   <h1>
     Create your space, <br> Share your story
@@ -22,38 +22,41 @@
   </a>
 </section> 
 
-  <section>
-    
-  </section>
-    <h2>📌 Frequent Blogs</h2>
-    {% for post in posts %}
-    <div class="frequent-blogs wrapper">
-    <h2>{{ post.title }}</h2>
-    {% if post.image %}
-          <img src="{{ post.image.url }}" alt="Blog Image" style="max-width:300px;">
-    {% endif %}
-    <div class="post-content">
-        
-          {{ post.content|safe|truncatewords:10 }}
-    </div>
-    <p>Posted  at {{ post.created_at|naturaltime }}</p>
-    <a href="{% url 'post_detail' id=post.id %}">Read More</a> 
-    <!-- aur jo bhi chahiye -->
-    </div>
-    {% empty %}
-      <p>No posts found in this category.</p>
-    {% endfor %}
 
+<section >
+  <h2>📌 Frequent Blogs</h2>
+  {% for post in posts %}
+    <div class="frequent-blogs"style=" background: linear-gradient(180deg, #79d4d4 0%, #d0dee1 100%)">
+        <div class="article-metadata" >
+      <h2 style="text-align:left; float:left; color: #000000; font-size: 1.1rem; margin: 0;">
+            BY {{ post.author.username }}
+      </h2>
+      <h5 style="text-align:right; float:right; color: #000000; margin: 0;">
+          {{ post.created_at|date:"F d, Y" }}
+      </h5>
+      <hr style="clear:both; margin-top: 5px;" />
+  </div>
+       <a href="{% url 'post_detail' id=post.id %}"><h3>{{ post.title }}</h3></a>
+
+      
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Blog Image" style="max-width:400px;">
+      {% endif %}
+      
+      <div class="post-content">
+       
+       {{ post.content|safe|truncatewords:100 }} 
+     <p><br>  Likes: {{ post.likes.count }}</p><br>  
+     </div>
+
+      
+      <p>Posted {{ post.created_at|naturaltime }}</p>
+      
+         <a href="{% url 'post_detail' id=post.id %}" class="btn btn-primary mt-auto">Read More</a> 
+   
+  {% empty %}
+    <p>No posts found in this category.</p>
+  {% endfor %}
+</section>
 
 {% endblock %}
-<div class="blog-list">
-  <div class="blog-item">
-    <h3>Blog Title</h3>
-    <p>Short description of the blog...</p>
-    <p class="post-time">Posted at 10 hours ago</p>
-    <a href="#" class="read-more">Read More</a>
-    <img src="path/to/image.jpg" alt="Blog image">
-  </div>
-
-  <!-- Next blog items -->
-</div>

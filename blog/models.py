@@ -12,6 +12,8 @@ class Category(models.Model):
 # Post model
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+
 from ckeditor_uploader.fields import RichTextUploadingField
 
 class Post(models.Model):
@@ -27,7 +29,14 @@ class Post(models.Model):
     content = RichTextUploadingField()  # CKEditor with image upload
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other') 
     created_at = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
     image = models.ImageField(upload_to='blog_images/', null=True, blank=True)
+     # New likes field
+    likes = models.ManyToManyField(User, related_name='blog_likes', blank=True)
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title
@@ -50,3 +59,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.content[:20]}"
