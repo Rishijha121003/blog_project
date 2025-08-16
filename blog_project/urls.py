@@ -9,10 +9,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Authentication
+
+    path('', views.user_login, name='login'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.custom_logout, name='logout'),
     path('register/', views.register_view, name='register'),
-
+     
     # Main Pages
     path('home/', views.home, name='home'),
     path('base/', views.base, name='base'),
