@@ -14,7 +14,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
 
     # Main Pages
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('base/', views.base, name='base'),
     path('create_post/', views.create_post, name='create_post'),
     path('show_blog/', views.show_blog, name='show_blog'),

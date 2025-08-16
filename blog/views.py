@@ -43,11 +43,12 @@ def create_post(request):
 
 
 # Show all blogs with search and pagination
+@login_required
 def show_blog(request):
     query = request.GET.get('q', '')
     selected_categories = request.GET.getlist('category')
     
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at') 
     
     if selected_categories:
         posts = posts.filter(category__in=selected_categories)
@@ -55,7 +56,7 @@ def show_blog(request):
     if query:
         posts = posts.filter(Q(title__icontains=query) | Q(content__icontains=query))
     
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 5) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -70,6 +71,7 @@ def show_blog(request):
 
 
 # View a single blog post
+@login_required
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     comments = post.comments.all().order_by('-created_at')
@@ -180,5 +182,6 @@ def custom_logout(request):
 
 
 # About page
+login_required
 def about(request):
     return render(request, 'blog/about.html')

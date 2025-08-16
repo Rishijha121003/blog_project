@@ -5,84 +5,78 @@
 {% block title %}{{ post.title }} | MyBlog{% endblock %}
 
 {% block content %}
+<div class="container post-detail-page-container">
 
-<article class="post-detail" 
-         style="max-width: 1000px; margin: 2rem auto; 
-                display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; 
-                align-items: start; background: linear-gradient(180deg, #ca94da 0%, #bfc9cb 100%); padding: 1.5rem; border-radius: 8px;">
-  
-  <!-- Left Column -->
-  <div>
-    {% if post.image %}
-      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image" style="max-width: 100%; border-radius: 6px;">
-    {% endif %}
+  <article class="post-detail">
 
-    <p class="meta" style="color:#6b7280; margin-top: 0.5rem; font-size: 0.9rem;">
-      By {{ post.author }} • {{ post.created_at|date:"M d, Y" }}
-    </p>
-  </div>
+    <div class="post-detail-left">
+      {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+      {% endif %}
 
-  <!-- Right Column -->
-  <div class="right-col">
-    <h1 style="margin-top:0;">{{ post.title }}</h1>
-
-    <div class="post-content">
-      {{ post.content|safe }}
+      <p class="meta">
+        By {{ post.author }} • {{ post.created_at|date:"M d, Y" }}
+      </p>
     </div>
 
-    <!-- Actions -->
-    <div class="post-actions" style="margin-top:1.25rem;">
-      <a href="{% url 'show_blog' %}" style="margin-right:1rem;">← Back to posts</a>
-      <a href="{% url 'home' %}" style="margin-right:1rem;">← Back to home</a>
+    <div class="post-detail-right">
+      <h1>{{ post.title }}</h1>
 
-   
-    </div>
+      <div class="post-content">
+        {{ post.content|safe }}
+      </div>
 
-    <!-- Like Button -->
-    <div style="margin-top: 1.5rem;">
-      {% if user.is_authenticated %}
-        <form action="{% url 'like_post' post.pk %}" method="POST">
+      <div class="post-actions">
+        <a href="{% url 'show_blog' %}">← Back to posts</a>
+        <a href="{% url 'home' %}">← Back to home</a>
+      </div>
+
+      <div class="like-section">
+        {% if user.is_authenticated %}
+        <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline-block;">
           {% csrf_token %}
           {% if user in post.likes.all %}
-            <button type="submit" class="btn btn-danger">Unlike</button>
+          <button type="submit" class="btn btn-danger">Unlike</button>
           {% else %}
-            <button type="submit" class="btn btn-primary">Like</button>
+          <button type="submit" class="btn btn-primary">Like</button>
           {% endif %}
-          <span style="margin-left: 0.5rem;">{{ post.total_likes }} Likes ❤️</span>
         </form>
-      {% else %}
-        <p>Login to like this post</p>
-      {% endif %}
+        <span>{{ post.total_likes }} Likes ❤️</span>
+        {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to like this post.</p>
+        {% endif %}
+      </div>
+
+      <hr style="margin: 2rem 0;">
+
+      <div class="comments-section">
+        <h4>💬 Comments ({{ comments.count }})</h4>
+
+        <ul class="comments-list">
+          {% for comment in comments %}
+          <li class="comment-item">
+            <div>
+              <strong>{{ comment.user.username }}</strong> — {{ comment.content }}
+            </div>
+            <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+          </li>
+          {% empty %}
+          <li class="comment-item">No comments yet. Be the first to comment!</li>
+          {% endfor %}
+        </ul>
+
+        {% if user.is_authenticated %}
+        <form method="post" class="comment-form">
+          {% csrf_token %}
+          {{ form.content }}
+          <button type="submit" class="btn btn-success">Add Comment</button>
+        </form>
+        {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+        {% endif %}
+      </div>
+
     </div>
-
-    <!-- Comments Section -->
-    <hr style="margin: 2rem 0;">
-
-    <h4>💬 Comments ({{ comments.count }})</h4>
-
-    <ul class="list-group mb-3">
-      {% for comment in comments %}
-        <li class="list-group-item" style="background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;">
-          <strong>{{ comment.user.username }}</strong> — {{ comment.content }}
-          <small class="text-muted" style="float: right;">{{ comment.created_at|naturaltime }}</small>
-        </li>
-      {% empty %}
-        <li class="list-group-item">No comments yet. Be the first to comment!</li>
-      {% endfor %}
-    </ul>
-
-    <!-- Add Comment Form -->
-    {% if user.is_authenticated %}
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Add Comment</button>
-      </form>
-    {% else %}
-      <p><a href="{% url 'login' %}">Login</a> to comment.</p>
-    {% endif %}
-
-  </div>
-</article>
-
+  </article>
+</div>
 {% endblock %}

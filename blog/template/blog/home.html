@@ -7,24 +7,25 @@
 
 <!-- 🔥 Hero Section -->
 <section class="ghost-hero">
+
   <span class="badge">🚀 MyBlog 1.0</span>
   <h1>Create your space, <br> Share your story</h1>
   <p>
-    Welcome to <strong>MyBlog</strong> — a place where your voice matters. 
+    Welcome to <strong>MyBlog</strong> — a place where your voice matters.
     Write blog posts, share ideas, and connect with an audience that cares.
   </p>
   <a href="{% url 'create_post' %}" class="btn-primary">✍️ Start Writing</a>
-</section> 
+</section>
 
 <!-- 🔥 Frequent Blogs Grid -->
 <section>
   <h2 style="margin-bottom: 20px;">📌 Frequent Blogs</h2>
-  
+
   {% if posts %}
   <div class="posts-grid">
     {% for post in posts %}
     <div class="blog-card">
-      
+
       <!-- Author & Date -->
       <div class="article-metadata">
         <h2>BY {{ post.author.username }}</h2>
@@ -32,11 +33,13 @@
       </div>
 
       <!-- Title -->
-      <a href="{% url 'post_detail' id=post.id %}"><h3>{{ post.title }}</h3></a>
+      <a href="{% url 'post_detail' id=post.id %}">
+        <h3>{{ post.title }}</h3>
+      </a>
 
       <!-- Image -->
       {% if post.image %}
-        <img src="{{ post.image.url }}" alt="Blog Image" style="max-width: 400px;">
+      <img src="{{ post.image.url }}" alt="Blog Image" style="max-width: 400px;">
       {% endif %}
 
       <!-- Content -->
@@ -52,7 +55,7 @@
     {% endfor %}
   </div>
   {% else %}
-    <p>No posts found.</p>
+  <p>No posts found.</p>
   {% endif %}
 </section>
 

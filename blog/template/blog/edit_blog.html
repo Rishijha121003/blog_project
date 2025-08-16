@@ -5,10 +5,18 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <h1>Edit Content</h1>
-  <form method="POST" enctype="multipart/form-data" >
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+
+<div class="container">
+  <div class="form-card">
+    <h1>Edit Post</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {{ form.as_p }}
+
+      <button type="submit" class="btn-primary">Update Post</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

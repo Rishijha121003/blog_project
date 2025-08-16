@@ -1,73 +1,198 @@
-/* ==========================
-   BASE RESETS
-========================== */
+/* ===== CSS Variables (Black/Gold Theme) ===== */
+:root {
+  --primary-color: #000000;
+  --primary-color-dark: #333333;
+  --accent-color: #e4bc1f;
+  --secondary-color: #f5f5f5;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+
+  --text-color-dark: #111111;
+  --text-color-light: #000000;
+  --text-color-white: #ffffff;
+
+  --body-bg-color: #ffffff;
+  --card-bg-color: #d5d5d5;
+  --border-color: #dddddd;
+
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  /* Sharper corners */
+  --transition-smooth: all 0.2s ease;
+  --font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* ===== Base Resets & Global Styles ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue', sans-serif;
 }
-html, body {
-  height: 100%;
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  font-family: var(--font-family);
+  background-color: var(--body-bg-color);
+  color: var(--text-color-dark);
+  line-height: 1.6;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
-/* ==========================
-   NAVBAR STYLING
-========================== */
+main {
+  flex-grow: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ==========================================================================
+   2. REUSABLE COMPONENTS
+   - Buttons, Cards, Forms jo poori site par use honge.
+   ========================================================================== */
+
+/* --- Buttons --- */
+.btn {
+  padding: 12px 24px;
+  border-radius: 4px;
+  /* Sharp corners for buttons */
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-color-white);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: var(--text-color-white);
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: var(--text-color-white);
+}
+
+.btn-success:hover {
+  opacity: 0.9;
+}
+
+/* --- Forms (for Create/Edit, Comments, etc.) --- */
+.form-group p,
+.form-card form p {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label,
+.form-card form label,
+.auth-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+.form-card form input,
+.form-card form textarea,
+.form-card form select,
+.auth-card input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: #f5f5f5;
+  font-size: 1rem;
+  font-family: var(--font-family);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.form-card form input:focus,
+.form-card form textarea:focus,
+.form-card form select:focus,
+.auth-card input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* ==========================================================================
+   3. LAYOUT COMPONENTS
+   - Navbar, Hero Section, Footer.
+   ========================================================================== */
+
+/* --- Navbar --- */
 .ghost-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 40px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px #0000001a;
   position: sticky;
   top: 0;
-  background: #fff;
-  z-index: 100;
+  background: var(--card-bg-color);
+  z-index: 1000;
 }
 
 .ghost-navbar .logo {
   font-weight: bold;
   font-size: 1.2rem;
   letter-spacing: 1px;
+  text-decoration: none;
+  color: var(--text-color-dark);
 }
 
-.ghost-navbar .nav-links a,
-.ghost-navbar .auth-links a {
+.ghost-navbar .nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ghost-navbar .nav-links a {
   margin: 0 12px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
 }
 
-.ghost-navbar .auth-links .btn-primary {
-  background: #000;
-  color: #fff;
+.ghost-navbar .nav-links .btn-primary {
   padding: 8px 14px;
-  border-radius: 4px;
+  /* Smaller button for navbar */
 }
 
-.ghost-navbar .auth-links .btn-primary:hover {
-  opacity: 0.9;
-}
-
-main {
-  flex: 1;
-}
-
-/* ==========================
-   HERO SECTION
-========================== */
+/* --- Hero Section --- */
 .ghost-hero {
-  background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%);
-  height: 100vh;
+  background: linear-gradient(180deg, #47d7ed 0%, #bfc9cb 100%);
+  min-height: 80vh;
   display: flex;
-  width: 100vw;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -76,7 +201,7 @@ main {
 }
 
 .ghost-hero .badge {
-  background: #e4bc1f;
+  background: var(--accent-color);
   border: none;
   padding: 8px 20px;
   border-radius: 999px;
@@ -93,98 +218,67 @@ main {
 
 .ghost-hero p {
   font-size: 1rem;
-  max-width: 600px;
-  margin: 0 auto 24px;
-  color: #555;
+  max-width: 800px;
+  margin: 1rem auto 1.5rem;
+  color: var(--text-color-light);
 }
 
-.ghost-hero .btn-primary {
-  background: #000;
-  color: #fff;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
+/* --- Footer --- */
+.ghost-footer {
+  background: #f1f1f1;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  width: 100%;
+  color: var(--text-color-light);
 }
 
-/* ==========================
-   FREQUENT BLOGS / POSTS
-========================== */
+/* ==========================================================================
+   4. PAGE-SPECIFIC STYLES
+   ========================================================================== */
+
+/* --- Posts Grid (Homepage) --- */
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  width: 100%;
-  margin-top: 20px;
 }
 
-.blog-card, .post-card, .frequent-blogs {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.blog-card {
+  background: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   padding: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s;
 }
 
-.blog-card:hover, .post-card:hover, .frequent-blogs:hover {
+.blog-card:hover {
   transform: translateY(-3px);
 }
 
-.blog-card img, .post-card img, .post-image, .frequent-blogs img {
+.blog-card img {
   max-width: 100%;
   border-radius: 6px;
-  margin: 10px 0;
-}
-
-.article-metadata {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.blog-card h3, .post-card h3, .frequent-blogs h3 {
-  text-align: center;
+.blog-card h3 {
   margin: 10px 0;
+  font-size: 1.3rem;
 }
 
-.blog-card .post-content, .post-card .post-content, .frequent-blogs .post-content {
-  text-align: justify;
+.blog-card .btn {
+  width: 100%;
   margin-top: 10px;
 }
 
-.blog-card .btn, .post-card .btn, .post-actions a, .frequent-blogs .btn {
-  text-align: center;
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: #000;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 500;
-}
-
-.blog-card .btn:hover, .post-card .btn:hover, .post-actions a:hover, .frequent-blogs .btn:hover {
-  background-color: #333;
-}
-
-/* ==========================
-   MAIN CONTENT CONTAINER
-========================== */
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-/* ==========================
-   AUTH PAGES
-========================== */
+/* --- Authentication Pages --- */
 .auth-page {
-  background: #060505;
+  background: #f1f1f1;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -193,230 +287,540 @@ main {
 }
 
 .auth-card {
-  background: #fff;
-  border-radius: 12px;
+  background: var(--card-bg-color);
+  border-radius: var(--border-radius);
   padding: 32px;
   max-width: 400px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(160, 137, 137, 0.5);
+  box-shadow: var(--shadow);
 }
 
 .auth-card h2 {
   margin-bottom: 24px;
   font-size: 1.75rem;
-  color: #854545;
   text-align: left;
-}
-
-.auth-card label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #333;
-}
-
-.auth-card input {
-  width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f5f5f5;
-  font-size: 1rem;
-}
-
-.auth-card .hint {
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: -12px;
-  margin-bottom: 16px;
 }
 
 .auth-card button {
   width: 100%;
   padding: 14px;
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.auth-card button:hover {
-  opacity: 0.9;
 }
 
 .auth-card .disclaimer {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #777;
   text-align: center;
   margin-top: 20px;
-  line-height: 1.4;
 }
 
 .auth-card .disclaimer a {
-  color: #111;
+  color: var(--text-color-dark);
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 768px) {
+  .ghost-navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ghost-hero h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* --- Post Detail Page --- */
+.post-detail-page-container {
+  background-color: var(--secondary-color);
+  padding: 2rem 1rem;
+}
+
+.post-detail {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  /* Content column is wider */
+  gap: 3rem;
+  align-items: start;
+  background: var(--card-bg-color);
+  padding: 3rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+/* --- Left Column (Image & Meta) --- */
+.post-detail-left .post-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.post-detail-left .meta {
+  color: var(--text-color-light);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* --- Right Column (Content) --- */
+.post-detail-right h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2.8rem;
+  font-weight: 800;
+  /* Extra bold to match hero */
+  line-height: 1.2;
+  color: var(--text-color-dark);
+}
+
+.post-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+.post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.post-content a {
+  color: var(--primary-color);
   text-decoration: underline;
 }
 
-/* ==========================
-   FORM CARD
-========================== */
-.card {
-  width: 400px;
-  padding: 30px;
-  max-width: 800px;
-  max-height: 800px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.container.about-page {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background: linear-gradient(180deg, #dac67e 0%, #bfc9cb 100%);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-}
-
-.container.about-page h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #222;
-}
-
-.about-mission {
-    background: #f8f9fa;
-    padding: 15px;
-    border-left: 4px solid #0077cc;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-
-.about-mission h2 {
-    margin-top: 0;
-    color: #0077cc;
-}
-
-.about-mission p {
-    margin: 0;
-    color: #444;
-    line-height: 1.6;
-}
-
-/* ==========================
-   FOOTER STYLING
-========================== */
-.content {
-  min-height: calc(100vh - 60px);
-}
-
-.ghost-footer {
-  height: 60px;
-  background: #f1f1f1;
-  text-align: center;
-  line-height: 60px;
-  position: relative;
-  bottom: auto;
-  width: 100%;
+/* --- Actions & Buttons --- */
+.post-actions {
   margin-top: 2rem;
-}
-
-/* ==========================
-   BLOG HIGHLIGHTS / POST LIST
-========================== */
-.blog-highlights {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 60px 20px;
-  background: #f9f9f9;
-  text-align: center;
-}
-
-.highlight-card {
-  background: white;
-  border: 1px solid #eee;
-  padding: 30px;
-  border-radius: 12px;
-  width: 300px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-
-.highlight-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 12px;
-}
-
-.highlight-card p {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 16px;
-}
-
-.highlight-card a {
-  color: #737070;
-  font-weight: bold;
-  text-decoration: none;
-  background: #ffcd00;
-  padding: 8px 16px;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-}
-
-.highlight-card a:hover {
-  background: #e6b800;
-}
-
-.highlight-card:hover {
-  transform: translateY(-5px);
-}
-
-/* ==========================
-   BLOG LAYOUT / FILTERS
-========================== */
-.blog-layout {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
-}
-
-.filter-sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  border-right: 1px solid #ddd;
-  padding-right: 20px;
-}
-
-.blog-posts {
-  flex: 1;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
 }
 
 .post-actions a {
-  margin-right: 10px;
-  color: #007bff;
   text-decoration: none;
+  color: var(--text-color-light);
+  font-weight: 500;
+  margin-right: 1rem;
 }
 
 .post-actions a:hover {
-  text-decoration: underline;
+  color: var(--primary-color);
 }
 
-/* ==========================
-   WRAPPER
-========================== */
-.wrapper {
+.like-section {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.like-section span {
+  font-weight: 500;
+  color: var(--text-color-light);
+}
+
+/* --- Comments Section --- */
+.comments-section {
+  margin-top: 2rem;
+}
+
+.comments-section h4 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.comment-item {
+  background: var(--secondary-color);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid #eee;
+}
+
+.comment-item strong {
+  color: var(--text-color-dark);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.comment-item .text-muted {
+  font-size: 0.8rem;
+  color: var(--text-color-light);
+  white-space: nowrap;
+  /* Prevents time from wrapping */
+  margin-left: 1rem;
+}
+
+.comment-form textarea {
+  min-height: 120px;
+  resize: vertical;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: #f5f5f5;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  margin-bottom: 1rem;
+}
+
+.comment-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (continued)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .post-detail {
+    grid-template-columns: 1fr;
+    /* Stacks columns on tablets and mobile */
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .post-detail-right h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* ==========================================================================
+   PAGE-SPECIFIC STYLES (continued)
+   ========================================================================== */
+
+/* --- All Posts Page (List View) --- */
+.post-list-page {
+  padding: 2rem 1rem;
+}
+
+/* Search Section */
+.search-section {
+  max-width: 700px;
+  margin: 1rem auto 3rem auto;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  background-color: var(--card-bg-color);
+  border-radius: 50px;
+  padding: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--text-color-dark);
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-button {
+  padding: 0 2rem;
+  /* Shorter padding for search button */
+}
+
+/* Post List & Cards */
+.post-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.post-card-list {
+  padding: 1.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.post-content-list {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
+}
+
+.post-image-link {
+  flex-shrink: 0;
+}
+
+.post-image {
+  width: 250px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+
+.post-meta,
+.post-stats,
+.author-actions {
+  display: flex;
   align-items: center;
-  width: 100%;
-  height: fit-content;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-color-light);
+}
+
+.dot {
+  font-weight: bold;
+}
+
+.post-title-link {
+  text-decoration: none;
+}
+
+.post-title-link h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin: 0;
+  transition: var(--transition-smooth);
+}
+
+.post-title-link:hover h2 {
+  color: #5a5a5a;
+  /* A subtle hover color */
+}
+
+.post-excerpt {
+  color: var(--text-color-light);
+  line-height: 1.6;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.post-category {
+  background-color: var(--secondary-color);
+  color: var(--text-color-dark);
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.read-more-link {
+  text-decoration: none;
+  color: var(--text-color-dark);
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.read-more-link:hover {
+  color: #5a5a5a;
+}
+
+.author-actions a {
+  color: var(--text-color-light);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.author-actions a:hover {
+  color: var(--primary-color);
+}
+
+/* No Posts Found State */
+.no-posts-found {
+  padding: 3rem;
+  text-align: center;
+}
+
+.no-posts-found h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 3rem auto 1rem auto;
+  padding: 0 1rem;
+}
+
+.page-link {
+  padding: 0.6rem 1.2rem;
+}
+
+.page-current {
+  color: var(--text-color-light);
+  font-weight: 500;
+}
+
+/* ===== RESPONSIVE DESIGN (continued) ===== */
+@media (max-width: 768px) {
+  .post-card-list {
+    flex-direction: column-reverse;
+    /* Stacks image on top */
+    gap: 1.5rem;
+  }
+
+  .post-image {
+    width: 100%;
+    height: 220px;
+  }
+}
+
+/* ==========================================================================
+   9. RESPONSIVE DESIGN
+   - Mobile aur choti screens ke liye adjustments.
+   ========================================================================== */
+
+/* For Tablets and smaller devices (<= 768px) */
+@media (max-width: 768px) {
+
+  /* --- Layout & Typography --- */
+  .container {
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  /* --- Navbar --- */
+  .ghost-navbar {
+    padding: 1rem;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* --- Hero Section --- */
+  .ghost-hero {
+    padding: 4rem 1.5rem;
+    min-height: auto;
+  }
+
+  .ghost-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  /* --- Post Cards (Grid & List) --- */
+  .posts-grid {
+    padding: 2rem 0;
+  }
+
+  .post-card-list {
+    flex-direction: column-reverse;
+    /* Stacks image on top */
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .post-card-list .post-image {
+    width: 100%;
+    height: 220px;
+  }
+
+  /* --- Post Detail Page --- */
+  .post-detail {
+    grid-template-columns: 1fr;
+    /* Stacks columns */
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .post-detail-right h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* For smaller Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
+
+  /* --- Layout & Typography --- */
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  /* --- Navbar --- */
+  .ghost-navbar .nav-links {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* --- Hero Section --- */
+  .ghost-hero h1 {
+    font-size: 2rem;
+  }
+
+  .ghost-hero p {
+    font-size: 1rem;
+  }
+
+  /* --- Forms (Login/Register/Create Post) --- */
+  .auth-card,
+  .form-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-card h2,
+  .form-card h2 {
+    font-size: 1.8rem;
+  }
+
+  /* --- Buttons --- */
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .ghost-navbar .nav-links .btn-primary {
+    padding: 6px 12px;
+  }
+
+  /* --- Post Detail Page --- */
+  .post-detail {
+    padding: 1rem;
+  }
+
+  .post-detail-right h1 {
+    font-size: 1.8rem;
+  }
 }

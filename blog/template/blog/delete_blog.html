@@ -1,12 +1,24 @@
-
+{% extends 'blog/base.html' %}
 {% load static %}
 
+{% block title %}Confirm Deletion{% endblock %}
 
-<h1>Delete Blog</h1>
-<p>Are you sure you want to delete "{{ post.title }}"?</p>
-<form method="post" style=" background: linear-gradient(180deg, #94d1da 0%, #bfc9cb 100%);">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'show_blog' %}">Go back</a>
-</form>
+{% block content %}
+<div class="container auth-page">
+
+    <div class="card delete-confirmation-card">
+        <h1>Delete Post</h1>
+        <p>Are you sure you want to permanently delete the post titled <strong>"{{ post.title }}"</strong>?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{{ post.get_absolute_url }}" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
