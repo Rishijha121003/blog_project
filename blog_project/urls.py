@@ -22,6 +22,7 @@ urlpatterns = [
     path('show_blog/', views.show_blog, name='show_blog'),
     path('about/', views.about, name='about'),
     path('post/<int:id>/', views.post_detail, name='post_detail'),
+    path('my-posts/', views.my_posts, name='my_posts'),
     path('like/<int:pk>/', views.like_post, name='like_post'),
     path('post/<int:id>/edit/', views.edit_blog, name='edit_blog'),
     path('post/<int:id>/delete/', views.delete_blog, name='delete_blog'),

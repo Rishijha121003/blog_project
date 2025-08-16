@@ -185,3 +185,9 @@ def custom_logout(request):
 login_required
 def about(request):
     return render(request, 'blog/about.html')
+
+
+@login_required
+def my_posts(request):
+    posts = Post.objects.filter(author=request.user)  # only logged-in user's posts
+    return render(request, 'blog/my_posts.html', {'posts': posts})
