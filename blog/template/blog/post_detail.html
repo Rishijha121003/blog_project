@@ -30,7 +30,14 @@
         <a href="{% url 'show_blog' %}">← Back to posts</a>
         <a href="{% url 'home' %}">← Back to home</a>
       </div>
-
+      {% if user == post.author %}
+      <div class="author-actions">
+        <span class="dot">•</span>
+        <a href="{% url 'edit_blog' post.id %}">Edit</a>
+        <span class="dot">•</span>
+        <a href="{% url 'delete_blog' post.id %}">Delete</a>
+      </div>
+      {% endif %}
       <div class="like-section">
         {% if user.is_authenticated %}
         <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline-block;">

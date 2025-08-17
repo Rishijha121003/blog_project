@@ -8,8 +8,14 @@
     <li>
         <strong>{{ post.title }}</strong> - {{ post.created_at }}
         <a href="{% url 'post_detail' post.id %}">View</a>
-        <a href="{% url 'edit_post' post.id %}">Edit</a>
-        <a href="{% url 'delete_post' post.id %}">Delete</a>
+        {% if user == post.author %}
+        <div class="author-actions">
+            <span class="dot">•</span>
+            <a href="{% url 'edit_blog' post.id %}">Edit</a>
+            <span class="dot">•</span>
+            <a href="{% url 'delete_blog' post.id %}">Delete</a>
+        </div>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
